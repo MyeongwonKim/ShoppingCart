@@ -21,7 +21,7 @@ public class Page {
 
   private String slug;
 
-  @Size(min = 5, message = "Title must be at least 5 characters long")
+  @Size(min = 5, message = "Content must be at least 5 characters long")
   private String content;
 
   private int sorting;
