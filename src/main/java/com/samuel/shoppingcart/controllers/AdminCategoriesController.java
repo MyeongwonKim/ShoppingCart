@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -55,19 +54,17 @@ public class AdminCategoriesController {
     redirectAttributes.addFlashAttribute("message", "Category added");
     redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
-    String slug = category.getSlug() == ""
-      ? category.getName().toLowerCase().replace(" ", "-")
-      : category.getSlug().toLowerCase().replace(" ", "-");
+    String slug = category.getName().toLowerCase().replace(" ", "-");
 
-    Category slugExists = categoryRepo.findBySlug(slug);
+    Category categoryExists = categoryRepo.findByName(category.getName());
 
-    if (slugExists != null) {
+    if (categoryExists != null) {
       redirectAttributes.addFlashAttribute(
         "message",
-        "Slug exists, choose another"
+        "Category exists, choose another"
       );
       redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-      redirectAttributes.addFlashAttribute("category", category);
+      redirectAttributes.addFlashAttribute("categoryInfo", category);
     } else {
       category.setSlug(slug);
       category.setSorting(100);
