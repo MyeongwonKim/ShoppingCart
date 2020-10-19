@@ -35,7 +35,7 @@ public class CategoriesController {
     Model model,
     @RequestParam(value = "page", required = false) Integer p
   ) {
-    int perPage = 3;
+    int perPage = 6;
     int page = (p != null) ? p : 0;
     Pageable pageable = PageRequest.of(page, perPage);
     long count = 0;
