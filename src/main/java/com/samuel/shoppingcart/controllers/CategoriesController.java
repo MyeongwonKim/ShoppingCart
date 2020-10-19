@@ -5,6 +5,7 @@ import com.samuel.shoppingcart.models.ProductRepository;
 import com.samuel.shoppingcart.models.data.Category;
 import com.samuel.shoppingcart.models.data.Product;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
