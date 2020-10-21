@@ -46,7 +46,7 @@ public class Common {
       }
 
       model.addAttribute("csize", size);
-      model.addAttribute("total", total);
+      model.addAttribute("ctotal", total);
 
       cartActive = true;
     }
