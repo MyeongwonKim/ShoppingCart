@@ -26,7 +26,7 @@
         <form th:if="${principal != null}" method="post" th:action="@{/logout}">
             <!-- admin인 경우에만 아래의 버튼 출력 -->
             <a th:if="${principal == 'admin'}" th:href="@{/admin}" class="btn btn-secondary">Go to Admin Pages</a>
-            <span class="text-white" th:text="${'Hi, ' + principal}"></span>
+
             <button class="btn btn-secondary">Logout</button>
         </form>
 
