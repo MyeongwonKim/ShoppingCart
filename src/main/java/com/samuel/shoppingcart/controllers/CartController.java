@@ -4,6 +4,7 @@ import com.samuel.shoppingcart.models.Cart;
 import com.samuel.shoppingcart.models.ProductRepository;
 import com.samuel.shoppingcart.models.data.Product;
 import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,6 +96,44 @@ public class CartController {
     }
 
     return "cart_view";
+  }
+
+  @GetMapping("/subtract/{id}")
+  public String subtract(
+    @PathVariable int id,
+    HttpSession session,
+    Model model,
+    HttpServletRequest httpServletRequest
+  ) {
+    Product product = productRepo.getOne(id);
+
+    HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute(
+      "cart"
+    );
+
+    int qty = cart.get(id).getQuantity();
+    if (qty == 1) {
+      cart.remove(id);
+      if (cart.size() == 0) {
+        session.removeAttribute("cart");
+      }
+    } else {
+      cart.put(
+        id,
+        new Cart(
+          id,
+          product.getName(),
+          product.getPrice(),
+          --qty,
+          product.getImage()
+        )
+      );
+    }
+
+    // request가 요청된 곳의 link 얻기
+    String refererLink = httpServletRequest.getHeader("referer");
+
+    return "redirect:" + refererLink;
   }
 
   @RequestMapping("/view")
