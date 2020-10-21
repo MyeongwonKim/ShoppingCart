@@ -102,7 +102,6 @@ public class CartController {
   public String subtract(
     @PathVariable int id,
     HttpSession session,
-    Model model,
     HttpServletRequest httpServletRequest
   ) {
     Product product = productRepo.getOne(id);
@@ -131,6 +130,38 @@ public class CartController {
     }
 
     // request가 요청된 곳의 link 얻기
+    String refererLink = httpServletRequest.getHeader("referer");
+
+    return "redirect:" + refererLink;
+  }
+
+  @GetMapping("/remove/{id}")
+  public String remove(
+    @PathVariable int id,
+    HttpSession session,
+    HttpServletRequest httpServletRequest
+  ) {
+    HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute(
+      "cart"
+    );
+
+    cart.remove(id);
+    if (cart.size() == 0) {
+      session.removeAttribute("cart");
+    }
+
+    String refererLink = httpServletRequest.getHeader("referer");
+
+    return "redirect:" + refererLink;
+  }
+
+  @GetMapping("/clear")
+  public String clear(
+    HttpSession session,
+    HttpServletRequest httpServletRequest
+  ) {
+    session.removeAttribute("cart");
+
     String refererLink = httpServletRequest.getHeader("referer");
 
     return "redirect:" + refererLink;
