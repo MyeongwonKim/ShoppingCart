@@ -5,6 +5,7 @@ import com.samuel.shoppingcart.models.CategoryRepository;
 import com.samuel.shoppingcart.models.PageRepository;
 import com.samuel.shoppingcart.models.data.Category;
 import com.samuel.shoppingcart.models.data.Page;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -25,7 +26,15 @@ public class Common {
   }
 
   @ModelAttribute
-  public void sharedData(Model model, HttpSession session) {
+  public void sharedData(
+    Model model,
+    HttpSession session,
+    Principal principal
+  ) {
+    if (principal != null) {
+      model.addAttribute("principal", principal.getName());
+    }
+
     List<Page> pages = pageRepo.findAllByOrderBySortingAsc();
 
     List<Category> categories = categoryRepo.findAll();
