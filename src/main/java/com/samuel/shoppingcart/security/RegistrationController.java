@@ -37,9 +37,7 @@ public class RegistrationController {
     Model model
   ) {
     if (validateUsernameDuplication(user.getUsername())) {
-      bindingResult.addError(
-        new ObjectError("username", "이미 존재하는 아이디입니다.")
-      );
+      model.addAttribute("usernameDuplication", "Username already exists!");
       return "register";
     }
 
