@@ -24,6 +24,8 @@
 
         <!-- 로그 아웃 버튼. 로그아웃의 경우 spring security에 의해서 자동으로 구현됨 -->
         <form th:if="${principal != null}" method="post" th:action="@{/logout}">
+            <!-- admin인 경우에만 아래의 버튼 출력 -->
+            <a th:if="${principal == 'admin'}" th:href="@{/admin}" class="btn btn-secondary">Go to Admin Pages</a>
             <span class="text-white" th:text="${'Hi, ' + principal}"></span>
             <button class="btn btn-secondary">Logout</button>
         </form>

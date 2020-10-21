@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,13 @@ public class RegistrationController {
     BindingResult bindingResult,
     Model model
   ) {
+    if (validateUsernameDuplication(user.getUsername())) {
+      bindingResult.addError(
+        new ObjectError("username", "이미 존재하는 아이디입니다.")
+      );
+      return "register";
+    }
+
     if (bindingResult.hasErrors()) {
       return "register";
     }
@@ -48,5 +56,13 @@ public class RegistrationController {
     userRepo.save(user);
 
     return "redirect:/login";
+  }
+
+  private boolean validateUsernameDuplication(String username) {
+    User user = userRepo.findByUsername(username);
+    if (user != null) {
+      return true;
+    }
+    return false;
   }
 }
